@@ -2,7 +2,10 @@
   <HeaderTop></HeaderTop>
   <monster-health-bar :monsterHealth="monsterHealth"></monster-health-bar>
   <player-health-bar :playerHealth="playerHealth"></player-health-bar>
-  <buttons-panel :monsterHealth="monsterHealth"></buttons-panel>
+  <buttons-panel
+    v-model:playerHealth="playerHealth"
+    v-model:monsterHealth="monsterHealth"
+  ></buttons-panel>
   <buttle-log></buttle-log>
 </template>
 

@@ -8,10 +8,22 @@
 </template>
 
 <script>
-// import getRandomValue from "@/utils";
+import getRandomValue from "@/utils";
 
 export default {
-  props: ["monsterHealth"],
+  props: ["playerHealth, monsterHealth"],
+  emits: ["update:playerHealth, update:monsterHealth"],
+  methods: {
+    attackMonster() {
+      const updatedMonsterHealth = this.monsterHealth - getRandomValue(8, 15);
+      this.$emit("update:playerHealth", updatedMonsterHealth);
+      this.attackPlayer();
+    },
+    attackPlayer() {
+      const updatedPlayerHealth = this.playerHealth - getRandomValue(12, 15);
+      this.$emit("update:monsterHealth", updatedPlayerHealth);
+    },
+  },
 };
 </script>
 
