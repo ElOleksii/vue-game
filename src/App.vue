@@ -5,6 +5,7 @@
   <buttons-panel
     v-model:playerHealth="playerHealth"
     v-model:monsterHealth="monsterHealth"
+    v-model:currentRound="currentRound"
   ></buttons-panel>
   <buttle-log></buttle-log>
 </template>
@@ -29,7 +30,31 @@ export default {
     return {
       playerHealth: 100,
       monsterHealth: 100,
+      currentRound: 0,
+      isGameOver: false,
     };
+  },
+  watch: {
+    playerHealth(value) {
+      if (value <= 0 && this.monsterHealth <= 0) {
+        value = 0;
+        this.isGameOver = true;
+
+        this.gameOverStatus = "It's draw!";
+      } else if (value <= 0) {
+        this.isGameOver = true;
+
+        this.gameOverStatus = "You lost!";
+      }
+    },
+    monsterHealth(value) {
+      if (value <= 0) {
+        value = 0;
+        this.isGameOver = true;
+
+        this.gameOverStatus = "You won!";
+      }
+    },
   },
 };
 </script>
