@@ -44,11 +44,10 @@ export default {
     healPlayer(){
         const healValue = getRandomValue(15, 20);
         this.$emit("update:playerHealth",  this.playerHealth + healValue > 100 ? 100 : this.playerHealth + healValue)
-        this.attackPlayer();
         this.increaseCurrentRound();
     },
     attackPlayer(){
-        const attackValue = getRandomValue(12, 15);
+    const attackValue = getRandomValue(12, 20);
      this.$nextTick(() => {
        this.$emit("update:playerHealth", this.playerHealth - attackValue);
          })
@@ -58,8 +57,11 @@ export default {
   },
   computed: {
     canUseSpecialAttack() {
-      return this.currentRound % 3 !== 0;
-      
+        let canUseNow = false;
+        if(canUseNow){
+            this.currentRound % 3 !== 0 
+        }
+      return canUseNow;
     },
     
   },

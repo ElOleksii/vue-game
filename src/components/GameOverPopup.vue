@@ -3,7 +3,6 @@ export default {
   props: {
     show: Boolean
   },
-  
 }
 </script>
 
@@ -13,29 +12,23 @@ export default {
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
-            <slot name="header">default header</slot>
+            <slot name="outputWinner"></slot>
           </div>
 
-          <div class="modal-body">
-            <slot name="body">default body</slot>
-          </div>
-
-          <div class="modal-footer">
-            <slot name="footer">
-              default footer
+                <section class="button-section">
               <button
                 class="modal-default-button"
-                @click="$emit('close')"
-              >OK</button>
-            </slot>
+                @click="$emit('new-game')"
+              >Restart game</button>
+              
+                </section>
           </div>
         </div>
       </div>
-    </div>
   </Transition>
 </template>
 
-<style>
+<style scoped>
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -51,6 +44,7 @@ export default {
 .modal-wrapper {
   display: table-cell;
   vertical-align: middle;
+  
 }
 
 .modal-container {
@@ -61,23 +55,51 @@ export default {
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
+  width: 300px;
+  min-height: 150px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-
+.button-section{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 .modal-header h3 {
   margin-top: 0;
-  color: #42b983;
+  font-size: 32px;
+  text-align: center;
 }
 
 .modal-body {
   margin: 20px 0;
 }
 
+
+
 .modal-default-button {
   float: right;
 }
 
+button {
+  width: 7rem;
+  height: 2.5rem;
+  padding: auto;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background-color: rgb(203, 0, 0);
+  color: #fff;
+  border-radius: 15px;
+  border: 1px solid rgb(203, 0, 0);
+  margin: 0 auto;
+}
 
-
+button:hover {
+  background-color: rgb(203, 30, 0);
+}
 .modal-enter-from {
   opacity: 0;
 }

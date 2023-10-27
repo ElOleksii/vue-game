@@ -9,7 +9,9 @@
   :isGameOver="isGameOver"
   ></buttons-panel>
   <buttle-log></buttle-log>
-<game-over-popup  :show="isGameOver" v-if="isGameOver"></game-over-popup>
+<game-over-popup @new-game="startNewGame" :show="isGameOver" v-if="isGameOver">
+<template #outputWinner><h3 :style="gameResultStyles">{{ gameOverStatus }}</h3></template>
+</game-over-popup>
 </template>
 
 <script>
@@ -39,6 +41,16 @@ export default {
       gameOverStatus: null
     };
   },
+  methods: {
+    startNewGame(){
+    this.playerHealth = 100;
+      this.monsterHealth = 100;
+      this.currentRound = 0;
+      this.isGameOver = false;
+      this.battleLog = [];
+      this.gameOverStatus = null;
+    }
+  },
     watch: {
     playerHealth(value) {
       if (value <= 0 && this.monsterHealth <= 0) {
@@ -61,9 +73,20 @@ export default {
       }
     }
 },
-provide: {
+computed: {
+    gameResultStyles(){
+        if(this.gameOverStatus === "You lost!"){
+            return {"color": "rgb(138, 1, 1)"}
+    }
+    else if(this.gameOverStatus === "You won!"){
+        return {"color": "green"}
+    }
+    else{
+        return {"color": "black"}
+    }
 
-}
+    }
+},
 };
 </script>
 
@@ -102,4 +125,6 @@ h3 {
   margin: 0 auto;
   font-size: 1.5rem;
 }
+
+
 </style>
