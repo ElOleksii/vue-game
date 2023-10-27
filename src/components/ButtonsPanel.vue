@@ -3,7 +3,7 @@
     <button @click="attackMonster">Attack</button>
     <button :disabled="canUseSpecialAttack" @click="specialAttack">Special Attack</button>
     <button @click="healPlayer">Heal</button>
-    <button>Surround</button>
+    <button @click="$emit('surround')">Surround</button>
   </section>
 </template>
 
@@ -52,8 +52,6 @@ export default {
        this.$emit("update:playerHealth", this.playerHealth - attackValue);
          })
      },
-    
-
   },
   computed: {
     canUseSpecialAttack() {

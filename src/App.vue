@@ -7,6 +7,7 @@
   v-model:playerHealth="playerHealth"
   v-model:currentRound="currentRound"
   :isGameOver="isGameOver"
+  @surround="handleSurround"
   ></buttons-panel>
   <buttle-log></buttle-log>
 <game-over-popup @new-game="startNewGame" :show="isGameOver" v-if="isGameOver">
@@ -49,6 +50,10 @@ export default {
       this.isGameOver = false;
       this.battleLog = [];
       this.gameOverStatus = null;
+    }, 
+    handleSurround(){
+    this.isGameOver = true;
+      this.gameOverStatus = "You lost!";
     }
   },
     watch: {
@@ -71,7 +76,7 @@ export default {
 
         this.gameOverStatus = "You won!";
       }
-    }
+    },
 },
 computed: {
     gameResultStyles(){
