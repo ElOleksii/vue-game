@@ -1,8 +1,8 @@
 <template>
   <section class="buttons-container">
     <button @click="attackMonster">Attack</button>
-    <button>Special Attack</button>
-    <button>Heal</button>
+    <button :disabled="canUseSpecialAttack" @click="specialAttack">Special Attack</button>
+    <button @click="healPlayer">Heal</button>
     <button>Surround</button>
   </section>
 </template>
@@ -11,18 +11,57 @@
 import getRandomValue from "@/utils";
 
 export default {
-  props: ["playerHealth, monsterHealth"],
-  emits: ["update:playerHealth, update:monsterHealth"],
+ props: {
+    playerHealth: Number,
+    monsterHealth: Number,
+    currentRound: Number,
+    isGameOver: Boolean
+ },
+  emits: ["update:playerHealth", "update:monsterHealth", "update:currentRound"],
+  data(){
+    return{
+        canUseHeal: true,
+    }
+  },
   methods: {
     attackMonster() {
-      const updatedMonsterHealth = this.monsterHealth - getRandomValue(8, 15);
-      this.$emit("update:playerHealth", updatedMonsterHealth);
+      const attackValue = getRandomValue(8, 15);
+      this.$emit("update:monsterHealth", this.monsterHealth - attackValue);
       this.attackPlayer();
+      this.increaseCurrentRound();
     },
-    attackPlayer() {
-      const updatedPlayerHealth = this.playerHealth - getRandomValue(12, 15);
-      this.$emit("update:monsterHealth", updatedPlayerHealth);
+   increaseCurrentRound(){
+    this.$nextTick(() => {
+            this.$emit("update:currentRound", this.currentRound + 1)
+        })
+   },
+   specialAttack(){
+       const attackValue = getRandomValue(15, 20);
+       this.$emit("update:monsterHealth", this.monsterHealth - attackValue)
+       this.attackPlayer();
+       this.increaseCurrentRound();
     },
+    healPlayer(){
+        const healValue = getRandomValue(15, 20);
+        this.$emit("update:playerHealth",  this.playerHealth + healValue > 100 ? 100 : this.playerHealth + healValue)
+        this.attackPlayer();
+        this.increaseCurrentRound();
+    },
+    attackPlayer(){
+        const attackValue = getRandomValue(12, 15);
+     this.$nextTick(() => {
+       this.$emit("update:playerHealth", this.playerHealth - attackValue);
+         })
+     },
+    
+
+  },
+  computed: {
+    canUseSpecialAttack() {
+      return this.currentRound % 3 !== 0;
+      
+    },
+    
   },
 };
 </script>
@@ -61,5 +100,6 @@ button:disabled {
 
 button:disabled:hover {
   background-color: rgb(104, 104, 104);
+  cursor: auto;
 }
 </style>

@@ -1,12 +1,15 @@
 <template>
-  <HeaderTop></HeaderTop>
+  <header-top></header-top>
   <monster-health-bar :monsterHealth="monsterHealth"></monster-health-bar>
   <player-health-bar :playerHealth="playerHealth"></player-health-bar>
-  <buttons-panel
-    v-model:playerHealth="playerHealth"
-    v-model:monsterHealth="monsterHealth"
+  <buttons-panel 
+  v-model:monsterHealth="monsterHealth"
+  v-model:playerHealth="playerHealth"
+  v-model:currentRound="currentRound"
+  :isGameOver="isGameOver"
   ></buttons-panel>
   <buttle-log></buttle-log>
+<game-over-popup  :show="isGameOver" v-if="isGameOver"></game-over-popup>
 </template>
 
 <script>
@@ -15,6 +18,7 @@ import MonsterHealthBar from "./components/MonsterHealthBar.vue";
 import PlayerHealthBar from "./components/PlayerHealthBar.vue";
 import ButtonsPanel from "./components/ButtonsPanel.vue";
 import ButtleLog from "./components/ButtleLog.vue";
+import GameOverPopup from "./components/GameOverPopup";
 export default {
   name: "App",
   components: {
@@ -23,14 +27,43 @@ export default {
     PlayerHealthBar,
     ButtonsPanel,
     ButtleLog,
+    GameOverPopup
   },
 
   data() {
     return {
       playerHealth: 100,
       monsterHealth: 100,
+      currentRound: 0,
+      isGameOver:false,
+      gameOverStatus: null
     };
   },
+    watch: {
+    playerHealth(value) {
+      if (value <= 0 && this.monsterHealth <= 0) {
+        value = 0;
+        this.isGameOver = true;
+
+        this.gameOverStatus = "It's draw!";
+      } else if (value <= 0) {
+        this.isGameOver = true;
+
+        this.gameOverStatus = "You lost!";
+      }
+    },
+    monsterHealth(value) {
+      if (value <= 0) {
+        value = 0;
+        this.isGameOver = true;
+
+        this.gameOverStatus = "You won!";
+      }
+    }
+},
+provide: {
+
+}
 };
 </script>
 
