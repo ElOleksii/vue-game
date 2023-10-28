@@ -21,7 +21,7 @@ export default {
   data(){
     return{
         canUseHeal: true,
-        battleLog: []
+        battleLog: [],
     }
   },
   methods: {
@@ -42,7 +42,7 @@ export default {
        this.$emit("update:monsterHealth", this.monsterHealth - attackValue)
        this.attackPlayer();
        this.increaseCurrentRound();
-       this.addBattleLog("player", "special attack", attackValue)
+       this.addBattleLog("player", "attack", attackValue)
     },
     healPlayer(){
         const healValue = getRandomValue(15, 20);
@@ -71,11 +71,7 @@ export default {
 
   computed: {
     canUseSpecialAttack() {
-        let canUseNow = false;
-        if(canUseNow){
-            this.currentRound % 3 !== 0 
-        }
-      return canUseNow;
+      return this.currentRound % 3 === 0;
     },
   },
 }
