@@ -2,8 +2,8 @@
 <section class="container">
     <h3>Buttle Log</h3>
     <ul>
-        <li>
-            
+        <li v-for="log in battleLog" :key="log">
+            {{ log }}
         </li>
     </ul>
 </section>    
@@ -11,7 +11,9 @@
 
 <script>
 export default {
-    
+    props: {
+        battleLog: Array
+    }
 }
 </script>
 

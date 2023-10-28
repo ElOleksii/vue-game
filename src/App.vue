@@ -8,8 +8,9 @@
   v-model:currentRound="currentRound"
   :isGameOver="isGameOver"
   @surround="handleSurround"
+  @updateBattleLog="(val) => battleLog = val"
   ></buttons-panel>
-  <buttle-log></buttle-log>
+  <battle-log :battleLog="battleLog"></battle-log>
 <game-over-popup @new-game="startNewGame" :show="isGameOver" v-if="isGameOver">
 <template #outputWinner><h3 :style="gameResultStyles">{{ gameOverStatus }}</h3></template>
 </game-over-popup>
@@ -20,7 +21,7 @@ import HeaderTop from "./components/HeaderTop.vue";
 import MonsterHealthBar from "./components/MonsterHealthBar.vue";
 import PlayerHealthBar from "./components/PlayerHealthBar.vue";
 import ButtonsPanel from "./components/ButtonsPanel.vue";
-import ButtleLog from "./components/ButtleLog.vue";
+import BattleLog from "./components/BattleLog.vue";
 import GameOverPopup from "./components/GameOverPopup";
 export default {
   name: "App",
@@ -29,17 +30,17 @@ export default {
     MonsterHealthBar,
     PlayerHealthBar,
     ButtonsPanel,
-    ButtleLog,
+    BattleLog,
     GameOverPopup
   },
-
   data() {
     return {
       playerHealth: 100,
       monsterHealth: 100,
       currentRound: 0,
       isGameOver:false,
-      gameOverStatus: null
+      gameOverStatus: null,
+      battleLog: []
     };
   },
   methods: {

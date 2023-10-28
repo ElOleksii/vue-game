@@ -17,10 +17,11 @@ export default {
     currentRound: Number,
     isGameOver: Boolean
  },
-  emits: ["update:playerHealth", "update:monsterHealth", "update:currentRound"],
+  emits: ["update:playerHealth", "update:monsterHealth", "update:currentRound", "updateBattleLog"],
   data(){
     return{
         canUseHeal: true,
+        battleLog: []
     }
   },
   methods: {
@@ -29,6 +30,7 @@ export default {
       this.$emit("update:monsterHealth", this.monsterHealth - attackValue);
       this.attackPlayer();
       this.increaseCurrentRound();
+      this.addBattleLog("player", "attack", attackValue)
     },
    increaseCurrentRound(){
     this.$nextTick(() => {
@@ -40,19 +42,33 @@ export default {
        this.$emit("update:monsterHealth", this.monsterHealth - attackValue)
        this.attackPlayer();
        this.increaseCurrentRound();
+       this.addBattleLog("player", "special attack", attackValue)
     },
     healPlayer(){
         const healValue = getRandomValue(15, 20);
         this.$emit("update:playerHealth",  this.playerHealth + healValue > 100 ? 100 : this.playerHealth + healValue)
         this.increaseCurrentRound();
+        this.addBattleLog("player", "heal", healValue)
     },
     attackPlayer(){
     const attackValue = getRandomValue(12, 20);
      this.$nextTick(() => {
        this.$emit("update:playerHealth", this.playerHealth - attackValue);
          })
+        this.addBattleLog("monster", "attack", attackValue)
      },
+     addBattleLog(who, what, value) {
+      this.battleLog.push({
+        attackedBy: who,
+        typeOfAttack: what,
+        value: value,
+      }); 
+    this.$nextTick(() => {
+        this.$emit("updateBattleLog", this.battleLog)
+      })
   },
+  provide: ["battleLog"],
+
   computed: {
     canUseSpecialAttack() {
         let canUseNow = false;
@@ -61,8 +77,8 @@ export default {
         }
       return canUseNow;
     },
-    
   },
+}
 };
 </script>
 
