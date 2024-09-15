@@ -67,7 +67,6 @@ export default {
         this.$emit("updateBattleLog", this.battleLog)
       })
   },
-  provide: ["battleLog"],
 
   computed: {
     canUseSpecialAttack() {

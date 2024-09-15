@@ -21,8 +21,9 @@
 <script>
 export default {
     props: {
-        battleLog: Array
-    }
+        battleLog: Array,
+        isGameOver: Boolean
+    },
 }
 </script>
 

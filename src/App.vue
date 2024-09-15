@@ -10,7 +10,7 @@
   @surround="handleSurround"
   @updateBattleLog="(val) => battleLog = val"
   ></buttons-panel>
-  <battle-log :battleLog="battleLog"></battle-log>
+  <battle-log :battleLog="battleLog" :isGameOver="isGameOver"></battle-log>
 <game-over-popup @new-game="startNewGame" :show="isGameOver" v-if="isGameOver">
 <template #outputWinner><h3 :style="gameResultStyles">{{ gameOverStatus }}</h3></template>
 </game-over-popup>
@@ -40,7 +40,7 @@ export default {
       currentRound: 0,
       isGameOver:false,
       gameOverStatus: null,
-      battleLog: []
+      battleLog: [],
     };
   },
   methods: {
@@ -48,9 +48,10 @@ export default {
     this.playerHealth = 100;
       this.monsterHealth = 100;
       this.currentRound = 0;
+      this.battleLog = []
       this.isGameOver = false;
-      this.battleLog = [];
       this.gameOverStatus = null;
+      
     }, 
     handleSurround(){
     this.isGameOver = true;
